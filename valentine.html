@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💖 Unskippable Valentine 💖</title>
+    <style>
+        /* lovable, soft aesthetic */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: default; /* make it feel like an app */
+        }
+
+        body {
+            background: linear-gradient(145deg, #ffe6f0 0%, #ffd9e8 100%);
+            font-family: 'Segoe UI', 'Poppins', 'Arial', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            margin: 0;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .valentine-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 48px;
+            padding: 2.8rem 2.2rem;
+            box-shadow: 0 20px 40px rgba(230, 80, 120, 0.25);
+            max-width: 700px;
+            width: 100%;
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            transition: 0.3s;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #b3405a;
+            text-shadow: 0 4px 12px #ffb6c1;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.5rem;
+            word-break: break-word;
+        }
+
+        .heart-line {
+            font-size: 2.2rem;
+            line-height: 1.4;
+            margin-bottom: 2rem;
+            color: #d45c6e;
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .button-panel {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 2.5rem;
+            margin-top: 1.8rem;
+            margin-bottom: 0.8rem;
+            position: relative;
+        }
+
+        /* base button cuteness */
+        .btn {
+            border: none;
+            font-size: 2rem;
+            font-weight: 600;
+            padding: 0.9rem 2.2rem;
+            border-radius: 60px;
+            letter-spacing: 2px;
+            transition: all 0.2s ease;
+            box-shadow: 0 8px 0 rgba(0, 0, 0, 0.1), 0 12px 24px rgba(200, 0, 80, 0.15);
+            cursor: pointer;
+            border: 2px solid white;
+        }
+
+        .btn-yes {
+            background: #ff4d6d;
+            color: white;
+            text-shadow: 0 2px 0 #a1334a;
+            box-shadow: 0 8px 0 #9e2b44, 0 12px 28px rgba(255, 77, 109, 0.4);
+            transform: scale(1.02);
+        }
+
+        .btn-yes:hover {
+            background: #ff3355;
+            transform: scale(1.08);
+            box-shadow: 0 6px 0 #9e2b44, 0 16px 32px #ff8ca0;
+        }
+
+        /* the EVIL NO BUTTON – absolute chaos */
+        .btn-no {
+            position: absolute;  /* allow free movement */
+            background: #584b4f;
+            color: #eae0e0;
+            text-shadow: 0 1px 0 #2f2a2b;
+            box-shadow: 0 6px 0 #3a3134, 0 8px 16px rgba(0,0,0,0.2);
+            border-color: #ffd1dc;
+            padding: 0.9rem 2rem;
+            font-size: 1.9rem;
+            cursor: not-allowed;  /* hint it's unclickable */
+            opacity: 0.9;
+            z-index: 999;
+            /* starting position – will be overridden by JS, but safe fallback */
+            left: 65%;
+            top: 30%;
+            white-space: nowrap;
+        }
+
+        /* prevent any accidental clicking — it moves anyway but just in case */
+        .btn-no:active, .btn-no:focus, .btn-no:hover {
+            pointer-events: none;   /* cannot be clicked at all! */
+            background: #4a3f42;    /* subtle change */
+            transform: scale(0.98);
+            transition: 0.1s;
+        }
+
+        /* sweet yes-reaction area */
+        .reply-message {
+            margin-top: 2.5rem;
+            font-size: 2rem;
+            font-weight: 600;
+            color: #b33b4e;
+            min-height: 5rem;
+            padding: 0.8rem;
+            background: rgba(255, 255, 240, 0.6);
+            border-radius: 50px;
+            backdrop-filter: blur(4px);
+            border: 1px dashed #ff99aa;
+        }
+
+        .floating-hearts {
+            margin-top: 1.2rem;
+            font-size: 1.8rem;
+            color: #ff8da1;
+            letter-spacing: 8px;
+        }
+
+        /* responsive adjustments */
+        @media (max-width: 550px) {
+            .valentine-card { padding: 2rem 1.2rem; }
+            h1 { font-size: 2rem; }
+            .btn { font-size: 1.7rem; padding: 0.7rem 1.5rem; }
+            .btn-no { font-size: 1.7rem; }
+        }
+
+        @media (max-width: 400px) {
+            .button-panel { gap: 1.2rem; }
+            .btn-no { position: absolute; } /* keep absolute */
+        }
+
+        /* extra decoration */
+        .tiny-note {
+            color: #b3777e;
+            margin-top: 1rem;
+            font-style: italic;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="valentine-card">
+        <h1>💗 Valentine's Day 💗</h1>
+        <div class="heart-line">
+            <span>💖</span> <span>you make my heart flutter</span> <span>💖</span>
+        </div>
+
+        <div class="button-panel" id="buttonPanel">
+            <!-- YES button: solid & reliable -->
+            <button class="btn btn-yes" id="yesButton">YES 💌</button>
+
+            <!-- NO button: starts at a certain position, but will be MOVED absolutely within panel -->
+            <button class="btn btn-no" id="noButton">NO 🙅</button>
+        </div>
+
+        <!-- where happiness appears after clicking YES -->
+        <div class="reply-message" id="replyMessage">
+            😍
+        </div>
+        <div class="floating-hearts">
+            ♡ ♡ ♡
+        </div>
+        <div class="tiny-note">
+            (the no button is on a mission – you can't catch it!)
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            "use strict";
+
+            // ----  EVASIVE NO BUTTON LOGIC ----
+            // It moves away as you approach, and also teleports on any attempted click.
+            // Also completely unclickable thanks to pointer-events: none.
+            // but we ensure it's always bouncing around.
+
+            const noBtn = document.getElementById('noButton');
+            const yesBtn = document.getElementById('yesButton');
+            const replyEl = document.getElementById('replyMessage');
+            const panel = document.getElementById('buttonPanel');
+
+            // ensure panel is positioned relative — so absolute positioning of NO is inside panel
+            // (the CSS already gives .button-panel position: relative? if not, enforce)
+            const panelStyle = window.getComputedStyle(panel);
+            if (panelStyle.position === 'static') {
+                panel.style.position = 'relative';
+            }
+
+            // ---- MOVEMENT BASED ON MOUSE PROXIMITY ----
+            // the no button is a coward — runs from cursor
+            function moveNoButtonAwayFromMouse(e) {
+                // Get panel boundaries to keep button inside
+                const panelRect = panel.getBoundingClientRect();
+                const btnRect = noBtn.getBoundingClientRect();
+
+                // current button center
+                const btnCenterX = btnRect.left + btnRect.width / 2;
+                const btnCenterY = btnRect.top + btnRect.height / 2;
+
+                // mouse coordinates relative to viewport
+                const mouseX = e.clientX;
+                const mouseY = e.clientY;
+
+                // distance between mouse and button center
+                const deltaX = mouseX - btnCenterX;
+                const deltaY = mouseY - btnCenterY;
+                const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+                // if mouse is within 250px, button flees!
+                if (distance < 250) {
+                    // direction opposite to mouse
+                    let moveX = 0, moveY = 0;
+
+                    if (Math.abs(deltaX) > 0.1) moveX = deltaX > 0 ? -35 : 35;  // flee left/right
+                    if (Math.abs(deltaY) > 0.1) moveY = deltaY > 0 ? -30 : 30;  // flee up/down
+
+                    // add randomness: makes it less predictable & fun
+                    moveX += (Math.random() * 40 - 20);
+                    moveY += (Math.random() * 40 - 20);
+
+                    // current left & top (must parse from absolute positioning)
+                    let currentLeft = parseFloat(noBtn.style.left) || 0;
+                    let currentTop = parseFloat(noBtn.style.top) || 0;
+
+                    // if left/top not set, infer from current position (to avoid jumps)
+                    if (isNaN(currentLeft) || isNaN(currentTop)) {
+                        const computed = window.getComputedStyle(noBtn);
+                        currentLeft = parseFloat(computed.left) || (btnRect.left - panelRect.left);
+                        currentTop = parseFloat(computed.top) || (btnRect.top - panelRect.top);
+                    }
+
+                    let newLeft = currentLeft + moveX;
+                    let newTop = currentTop + moveY;
+
+                    // keep button strictly inside panel (with padding)
+                    const maxLeft = panelRect.width - btnRect.width - 5;  // 5px margin
+                    const maxTop = panelRect.height - btnRect.height - 5;
+
+                    newLeft = Math.min(Math.max(newLeft, 5), maxLeft);
+                    newTop = Math.min(Math.max(newTop, 5), maxTop);
+
+                    noBtn.style.left = newLeft + 'px';
+                    noBtn.style.top = newTop + 'px';
+                }
+            }
+
+            // ---- teleport the button randomly within panel ----
+            function teleportNoButton() {
+                const panelRect = panel.getBoundingClientRect();
+                const btnRect = noBtn.getBoundingClientRect();
+
+                // available width/height to move
+                const maxLeft = panelRect.width - btnRect.width - 8;
+                const maxTop = panelRect.height - btnRect.height - 8;
+
+                // ensure positive boundaries
+                const randLeft = Math.max(5, Math.min(maxLeft, Math.random() * maxLeft));
+                const randTop = Math.max(5, Math.min(maxTop, Math.random() * maxTop));
+
+                noBtn.style.left = randLeft + 'px';
+                noBtn.style.top = randTop + 'px';
+            }
+
+            // ---- initial random position for NO button ----
+            function initialNoPosition() {
+                // set absolute if not set
+                noBtn.style.position = 'absolute';
+                // ensure it's inside panel
+                const panelRect = panel.getBoundingClientRect();
+                // ensure button dimensions are there
+                const btnRect = noBtn.getBoundingClientRect();
+                const maxLeft = Math.max(10, panelRect.width - btnRect.width - 10);
+                const maxTop = Math.max(10, panelRect.height - btnRect.height - 10);
+
+                let startLeft = Math.min(panelRect.width * 0.6, maxLeft);
+                let startTop = Math.min(panelRect.height * 0.3, maxTop);
+
+                // avoid overlapping YES button too much? just for prettiness
+                noBtn.style.left = startLeft + 'px';
+                noBtn.style.top = startTop + 'px';
+            }
+
+            // ---- make sure NO BUTTON is unclickable via pointer-events + moving ----
+            // already set in css: pointer-events: none; but also teleport on any attempted click
+            function preventClickAndTeleport(e) {
+                e.preventDefault();
+                e.stopPropagation();  // avoid any event bubbling
+                teleportNoButton();
+                return false;
+            }
+
+            // ---- YES button does the romantic thing ----
+            function handleYesClick() {
+                replyEl.innerHTML = '💞 YAY! you said YES! 💞  Valentine accepted! 🥰💘';
+                replyEl.style.background = '#ffe3e8';
+                replyEl.style.border = '3px solid #ffb3c6';
+                // launch more hearts
+                document.querySelector('.floating-hearts').innerHTML = '💗 💖 💕 💘 💝';
+                // optional: make no button even more silly (already moving)
+                // give extra teleport for fun
+                teleportNoButton();
+            }
+
+            // ---- BIND ALL THE MAGIC ----
+            window.addEventListener('load', function() {
+                // set panel relative if not already (defensive)
+                if (window.getComputedStyle(panel).position === 'static') {
+                    panel.style.position = 'relative';
+                }
+
+                // absolute position for noBtn, and set initial location
+                noBtn.style.position = 'absolute';
+                initialNoPosition();
+
+                // listen to mousemove on entire panel to make NO button dodge
+                panel.addEventListener('mousemove', moveNoButtonAwayFromMouse);
+
+                // additionally, run away when mouse enters the button area (extra spicy)
+                noBtn.addEventListener('mouseenter', function(e) {
+                    teleportNoButton();
+                });
+
+                // completely block any click attempt on NO button
+                noBtn.addEventListener('click', preventClickAndTeleport);
+                noBtn.addEventListener('mousedown', preventClickAndTeleport);
+                noBtn.addEventListener('mouseup', preventClickAndTeleport);
+                // also for touch devices:
+                noBtn.addEventListener('touchstart', preventClickAndTeleport);
+                noBtn.addEventListener('touchend', preventClickAndTeleport);
+                noBtn.addEventListener('touchmove', function(e) { 
+                    e.preventDefault();   // avoid scrolling while touching no
+                    teleportNoButton();
+                });
+
+                // YES button listener
+                yesBtn.addEventListener('click', handleYesClick);
+
+                // periodic teleport – every 1.8s just to keep it lively (and extra annoying)
+                setInterval(function() {
+                    // but only teleport if mouse not nearby? naah, always extra move
+                    // but to avoid conflict with mousemove, just teleport sometimes
+                    if (Math.random() > 0.4) {  // 60% chance each interval
+                        teleportNoButton();
+                    }
+                }, 1200);
+
+                // on window resize, ensure NO stays within new boundaries
+                window.addEventListener('resize', function() {
+                    // keep inside panel
+                    const panelRect = panel.getBoundingClientRect();
+                    const btnRect = noBtn.getBoundingClientRect();
+                    let currentLeft = parseFloat(noBtn.style.left);
+                    let currentTop = parseFloat(noBtn.style.top);
+                    if (isNaN(currentLeft)) currentLeft = 30;
+                    if (isNaN(currentTop)) currentTop = 20;
+
+                    const maxLeft = panelRect.width - btnRect.width - 10;
+                    const maxTop = panelRect.height - btnRect.height - 10;
+                    let newLeft = Math.min(Math.max(currentLeft, 5), maxLeft);
+                    let newTop = Math.min(Math.max(currentTop, 5), maxTop);
+                    noBtn.style.left = newLeft + 'px';
+                    noBtn.style.top = newTop + 'px';
+                });
+            });
+
+        })();
+    </script>
+
+    <!-- extra fallback: even if javascript fails, NO button is still not clickable due to pointer-events: none in CSS. 
+    but we want movement so JS is needed. -->
+</body>
+</html>
